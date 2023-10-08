@@ -8,6 +8,11 @@ app.config['SECRET_KEY'] = 'your_secret_key_here'
 app.config['SESSION_TYPE'] = 'filesystem'
 Session(app)
 
+@app.route('/')
+def home():
+    return redirect('/question', code=302)
+
+
 @app.route('/question') #questionが飛んできたらプログラムが実行
 def q1():
     q1= ["問題1 今月は何月ですか？", "6月:7月:8月:9月:10月:11月:12月", "10月:11月", "説明1"]
