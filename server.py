@@ -20,7 +20,7 @@ sets = [
 
 @app.route('/')
 def home():
-    session["q_no"] = 2
+    session["q_no"] = 0
     return redirect('/question', code=302)
 
 @app.route('/question') #questionが飛んできたらプログラムが実行
@@ -40,7 +40,8 @@ def q1():
     for i, choice in enumerate(result, 1):
         print(i, choice)
 
-    #正解をここで作っておく
+    #正解をここで作ってセッションに保存しておく
+    #answer側ではこれと比較するだけで良いようにしておく
     cs_temp = set(q1[2].split(":"))
     correct_choices = set(result) & cs_temp
     session["correct_ans"] = correct_choices
@@ -56,10 +57,17 @@ def check_answer():
     #anserの複数の答えを一致させるプログラムを作成する
     user_choice = request.args.getlist('choice[]')  
     print("user_choice=",user_choice)
+
+    #q_noをプラス
+    q_no = session["q_no"]
+    q_no = q_no+1
+    session["q_no"]=q_no
+
     if set(user_choice) == correct_ans:
-        return "正解です！"
+        kekka="正解です！"
     else:
-        return "不正解です。"
+        kekka="不正解です。"
+    return render_template('kekka.html', kekka=kekka, q_no=q_no )
 
 
 if __name__ == "__main__":
