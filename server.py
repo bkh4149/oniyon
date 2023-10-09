@@ -28,7 +28,12 @@ def q1():
     
     for i, choice in enumerate(result, 1):
         print(i, choice)
-    session["correct_ans"]=q1[2]
+
+    #正解をここで作っておく
+    cs_temp = set(q1[2].split(":"))
+    correct_choices = set(result) & cs_temp
+    session["correct_ans"] = correct_choices
+
     return render_template('index.html', question="問題1 今月は何月ですか？", choices=result)
 
 @app.route('/answer', methods=['GET']) #answerが飛んできたら下のプログラムが実行
@@ -38,16 +43,12 @@ def check_answer():
     
     #10/15の作業
     #anserの複数の答えを一致させるプログラムを作成する
-
-    # user_choice = request.args.get('choice')
-    # print(user_choice)
-    # correct_choice = "10月"
-
-    # if user_choice == correct_choice:
-    #     return "正解です！"
-    # else:
-    #     return "不正解です。"
-
+    user_choice = request.args.getlist('choice[]')  
+    print("user_choice=",user_choice)
+    if set(user_choice) == correct_ans:
+        return "正解です！"
+    else:
+        return "不正解です。"
 
 
 if __name__ == "__main__":

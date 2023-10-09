@@ -9,7 +9,7 @@
     <form action="/answer" method="GET">
         {% for x in choices %}
             <div>
-                <input type="checkbox" name="choice" value="{{ x }}">{{ x }}
+                <input type="checkbox" name="choice[]" value="{{ x }}">{{ x }}
             </div> 
         {% endfor %}
         <input type="submit" value="Submit">
