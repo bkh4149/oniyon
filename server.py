@@ -20,13 +20,13 @@ sets = [
 
 @app.route('/')
 def home():
-    session["q_no"] = 0
+    session["Q_no"] = 0
     return redirect('/question', code=302)
 
 @app.route('/question') #questionが飛んできたらプログラムが実行
 def q1():
-    q_no=session["q_no"]
-    q1= sets[q_no]
+    Q_no=session["Q_no"]
+    q1= sets[Q_no]
     print(q1[0])  # 質問文の表示
 
     arr = q1[1].split(":")  # 解答群の作成　多数の中から４つをランダムで選択
@@ -58,16 +58,17 @@ def check_answer():
     user_choice = request.args.getlist('choice[]')  
     print("user_choice=",user_choice)
 
-    #q_noをプラス
-    q_no = session["q_no"]
-    q_no = q_no+1
-    session["q_no"]=q_no
+    #Q_noをプラス
+    Q_no = session["Q_no"]
+    Q_no = Q_no+1
+    session["Q_no"]=Q_no
 
+    #結果の表示
     if set(user_choice) == correct_ans:
         kekka="正解です！"
     else:
         kekka="不正解です。"
-    return render_template('kekka.html', kekka=kekka, q_no=q_no )
+    return render_template('kekka.html', kekka=kekka, Q_no=Q_no )
 
 
 if __name__ == "__main__":
